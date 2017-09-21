@@ -1,0 +1,32 @@
+{
+  "name": "newscraper",
+  "version": "1.0.0",
+  "description": "A news scraping app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coasterken/newScraper.git"
+  },
+  "keywords": [
+    "news",
+    "scraper"
+  ],
+  "author": "Ken Thompson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coasterken/newScraper/issues"
+  },
+  "homepage": "https://github.com/coasterken/newScraper#readme",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.11.12",
+    "morgan": "^1.8.2",
+    "request": "^2.82.0"
+  }
+}

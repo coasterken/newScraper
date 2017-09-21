@@ -1,0 +1,25 @@
+/* Header CSS */
+.scrapeButton {
+    box-shadow: 3px 3px 3px #888888;
+    border: none;
+}
+.scrapeButton:hover {
+    background-color: #4CAF50;
+    /* Green */
+    color: white;
+}
+
+/* Jumbotron CSS */
+.jumbotron {
+    background-image: url("/assets/img/nyskyc.jpg");
+    color: white;
+    opacity: 0.8;
+    text-align: center;
+    height: 550px;
+    padding-top: 60px;
+}
+
+.jumbotron h1 {
+    font-size: 80px;
+    font-weight: bold;
+}
