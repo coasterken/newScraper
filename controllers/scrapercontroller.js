@@ -1,5 +1,4 @@
 //controller for news scraper app
-
 var express = require('express');
 var app = express();
 var request = require('request');
@@ -19,46 +18,57 @@ app.get("/", function (req, res) {
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with request
     request("http://www.nytimes.com/", function (error, response, html) {
-        // Then, we load that into cheerio and save it to $ for a shorthand selector
-        var $ = cheerio.load(html);
-        // Now, we grab every h2 within an article tag, and do the following:
-        var totalScrapes = 0;
-        $("article").each(function (i, element) {
+        var startCount = 0;
+        var endCount = 0;
+        Article.find({}, function(err, data) {
+            processArticles(html, data);
 
-            // Save an empty result object
-            var result = {};
-
-            // Add the text and href of every link, and save them as properties of the result object
-            result.title = $(this).children("h2").children("a").text();
-            result.link = $(this).children("h2").children("a").attr("href");
-            result.summary = $(this).children("p.summary").text();
-            
-            var entry = new Article(result);
-            Article.findOne(function (err, data) {
-                if (!data) {
-                    // Now, save that entry to the db
-                    entry.save(function (err, doc) {
-                        // Log any errors
-                        if (err) {
-                            console.log(err);
-                        }
-                        // Or log the doc
-                        else {
-                            console.log(doc);
-                            totalScrapes ++;
-                        };
-                    });
+            Article.count({}, function(err, ec) {
+                console.log("endcount " + ec)
+                var totalScrapes = endCount - startCount;
+                if (totalScrapes === 0) {
+                    res.send("No New Headlines Available " + totalScrapes);
+                } else {
+                    res.send(totalScrapes + " articles added");
                 };
             });
         });
-    });
-    // Tell the browser that we finished scraping the text
-    if (totalScrapes === 0) {
-        res.send("No New Headlines Available");
-    } else {
-        res.send(totalScrapes +  " articles added");        
-    }
+    });  //end of request
 });
+
+function processArticles (html, data) {
+    
+    // Then, we load that into cheerio and save it to $ for a shorthand selector
+    var $ = cheerio.load(html);
+    // Now, we grab every article tag, and do the following:
+    $("article").each(function (i, element) {
+
+        // Save an empty result object
+        var result = {};
+
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this).children("h2").children("a").text();
+        result.link = $(this).children("h2").children("a").attr("href");
+        result.summary = $(this).children("p.summary").text();
+
+        var entry = new Article(result);
+        Article.findOne({ title: result.title }, function (err, data) {
+            if (!data) {
+                // Now, save that entry to the db
+                entry.save(function (err, doc) {
+                    // Log any errors
+                    if (err) {
+                        // console.log(err);
+                    }
+                    // Or log the doc
+                    else {
+                        console.log("Saved Doc " + doc);
+                    };
+                }); // end of article save
+            };
+        }); // end of Article findOne
+    }); // end of Article.each loop
+}
 
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function (req, res) {

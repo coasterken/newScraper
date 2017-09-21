@@ -37,7 +37,7 @@ db.once("open", function () {
 });
 
 // Import routes and give the server access to them.
-var routes = require("./controllers/scraper.js");
+var routes = require("./controllers/scrapercontroller.js");
 
 app.use("/", routes);
 
