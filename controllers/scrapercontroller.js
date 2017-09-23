@@ -28,7 +28,7 @@ app.get("/scrape", function (req, res) {
         Article.find({}, function (err, data) {
 
             var returnScrapes = processArticles(html, data);
-            console.log("returned scrapes " + returnScrapes);
+            // console.log("returned scrapes " + returnScrapes);
             if (returnScrapes === 0) {
                 res.send("No New Headlines Available " + returnScrapes);
             } else {
@@ -44,7 +44,7 @@ app.get("/articles/:saved", function (req, res) {
     // TODO: Finish the route so it grabs all of the articles
     var saved = req.params.saved;
 
-    console.log("saved " + saved)
+    // console.log("saved " + saved)
 
         Article.find({saved:saved}, function (error, doc) {
             // Send any errors to the browser
@@ -109,7 +109,7 @@ app.post("/articles/:id", function (req, res) {
 
 // This will grab an article by it's ObjectId
 app.delete("/articles/:id", function (req, res) {
-    console.log("server code hit " + req.params.id )
+    // console.log("server code hit " + req.params.id )
     Article.findByIdAndRemove(req.params.id, function(error, article) {
             // Send any errors to the browser
             if (error) {
@@ -150,7 +150,7 @@ function processArticles(html, data) {
                     }
                     // Or log the doc
                     else {
-                        console.log("Saved Doc " + doc);
+                        // console.log("Saved Doc " + doc);
                     };
                 }); // end of article save
             }; // end of if statement
