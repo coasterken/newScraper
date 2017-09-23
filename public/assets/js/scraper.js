@@ -8,7 +8,7 @@ function loadHomePage() {
 
     $("#scrapedData").empty();
     $.get("/articles/false").then(function (data) {
-        console.log(data)
+        // console.log(data)
         if (data && data.length > 0) {
 
             $.each(data, function(index, article) {
@@ -26,7 +26,7 @@ function loadHomePage() {
             $("#scrapedData").append(artList);
             });
         } else {
-            console.log("no data found")
+            // console.log("no data found")
             $("#scrapedData").html("No articles to display.  Scrape some!");
         }
     });

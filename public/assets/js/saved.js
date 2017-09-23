@@ -40,7 +40,6 @@ function loadSavedPage() {
 $(document).on("click", ".delete-article", function() {
 
     var articleId = $(this).attr("data-id");
-    console.log("delete code " + articleId)
     $.ajax({
         method: "DELETE",
         url: "/articles/" + articleId
@@ -48,9 +47,9 @@ $(document).on("click", ".delete-article", function() {
         .then(function () {
             loadSavedPage();
         })
-        .fail(function() {
-            console.log("Delete ajax call failed");
-        })
+        .fail(function (xhr, textStatus, errorThrown) {
+            handleErr(xhr.responseText);
+        });
 });
 
 function handleErr(err) {
