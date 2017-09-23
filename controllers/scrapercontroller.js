@@ -58,7 +58,7 @@ app.get("/articles/:saved", function (req, res) {
         });
 });
 
-// This will grab an article by it's ObjectId
+// Updates boolean to say that this article has been saved
 app.post("/saveArticle/:id", function (req, res) {
 
     var id = req.params.id;
@@ -70,6 +70,26 @@ app.post("/saveArticle/:id", function (req, res) {
    
 });
 
+// get the notes linked to an article
+app.get("/notes/:id", function (req, res) {
+    // store the id param
+    var id = req.params.id;
+
+    Article.findOne({ "_id": id })
+        // ..and populate all of the notes associated with it
+        .populate("note")
+        // now, execute our query
+        .exec(function (error, doc) {
+            // Log any errors
+            if (error) {
+                console.log(error);
+            }
+            // Otherwise, send the doc to the browser as a json object
+            else {
+                res.json(doc);
+            }
+        });
+});
 
 // Create a new note or replace an existing note
 app.post("/articles/:id", function (req, res) {
@@ -84,11 +104,11 @@ app.post("/articles/:id", function (req, res) {
         }
         // Otherwise
         else {
-            // Find our user and push the new note id into the User's notes array
+            // Find our user and push the new note id into the Article's notes array
             Article.findOneAndUpdate({
                 "_id": articleId
             }, {
-                $set: {
+                $push: {
                     "note": doc._id
                 }
             }, {
@@ -107,7 +127,7 @@ app.post("/articles/:id", function (req, res) {
     });
 });
 
-// This will grab an article by it's ObjectId
+// This will delete a saved article from the db
 app.delete("/articles/:id", function (req, res) {
     // console.log("server code hit " + req.params.id )
     Article.findByIdAndRemove(req.params.id, function(error, article) {
@@ -119,6 +139,30 @@ app.delete("/articles/:id", function (req, res) {
             }
         });
 });
+
+// This will delete a saved article from the db
+app.delete("/notes/:data", function (req, res) {
+
+  var obj = JSON.parse(req.params.data);
+  var articleId = obj.articleid;
+  var noteId = obj.noteid;
+
+  Note.findByIdAndRemove(noteId, function (error, article) {
+    // Send any errors to the browser
+    if (error) {
+      console.log(error);
+    } else {
+      Article.update(
+        { "_id": articleId },
+        { "$pull": { "note": noteId } },
+        function (err, article) {
+          if (err) throw err;
+          res.json(article);
+        });
+    };
+  });
+});
+
 
 //  *********** FUNCTIONS **************
 function processArticles(html, data) {

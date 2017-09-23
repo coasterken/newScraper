@@ -13,7 +13,7 @@ function loadHomePage() {
 
             $.each(data, function(index, article) {
             var artList = "<div class='card card-default'>";
-            artList += "<div class='card-header'>";
+            artList += "<div class='card-header article-header'>";
             artList += "<h3><a class='article-link' target='_blank' href='" + article.link + "'>" + article.title + "</a>";
             artList += "<a data-id='" + article._id + "' class='btn btn-primary save-article'>Save Article</a>";
             artList += "</h3>";

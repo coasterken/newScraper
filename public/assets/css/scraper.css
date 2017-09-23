@@ -41,11 +41,13 @@
     margin-bottom: 10px;
 }
 
-.card-header {
+.article-header {
     background-color: lightblue;
 }
 
-.save-article {
+.note-article,
+.save-article,
+.note-delete {
    float: right;
    color: white !important; 
 }
@@ -56,5 +58,14 @@
 }
 
 .delete-article{
+    color: white !important;
     margin-right: 20px;
+}
+
+.notesblock {
+  margin-bottom: 20px;
+
+}
+.note-save {
+  margin-top: 20px;
 }
