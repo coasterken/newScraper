@@ -30,7 +30,7 @@ $(document).ready(function () {
         });
       } else {
         console.log("no data found")
-        $("#scrapedData").html("No saved articles to display.  Scrape and Save some!");
+        $("#scrapedData").html("<h3>No saved articles to display.  Scrape and Save some!</h3>");
       }
 
 

@@ -127,17 +127,25 @@ app.post("/articles/:id", function (req, res) {
     });
 });
 
-// This will delete a saved article from the db
+// This will delete a saved article and associated notes from the db
 app.delete("/articles/:id", function (req, res) {
     // console.log("server code hit " + req.params.id )
     Article.findByIdAndRemove(req.params.id, function(error, article) {
-            // Send any errors to the browser
-            if (error) {
-                console.log(error);
-            } else {
-                res.json(article);
-            }
-        });
+      // Send any errors to the browser
+      if (error) {
+          console.log(error);
+      } else {
+          console.log(article);
+          if (article.note) {
+            Note.deleteMany({"_id": {$in: article.note}}, function(err){
+              if (err) {
+                console.log(err)
+              };
+            });
+          };
+        res.json(article);
+      };
+    });
 });
 
 // This will delete a saved article from the db
