@@ -4,6 +4,7 @@ $(document).ready(function () {
   //Initial page load
   loadSavedPage();
 
+  //create the articles part of the page
   function loadSavedPage() {
 
     $("#scrapedData").empty();
@@ -36,6 +37,7 @@ $(document).ready(function () {
 
     }); //end of savedArticles on click
   };
+  
   // *********Delete an article from mongo
   $(document).on("click", ".delete-article", function () {
 

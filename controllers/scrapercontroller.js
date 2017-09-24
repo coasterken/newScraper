@@ -10,17 +10,17 @@ var Note = require("../models/notes.js");
 var Article = require("../models/articles.js");
 
 //  ************* ROUTES **************
-//home page
+//home page - render with handlebars
 app.get("/", function (req, res) {
     res.render("index");
 });
 
-//saved page
+//saved page - render with handlebars
 app.get("/saved", function (req, res) {
     res.render("saved");
 });
 
-// A GET request to scrape the echojs website
+// A GET request to scrape the nyt website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with request
     request("http://www.nytimes.com/", function (error, response, html) {
@@ -41,7 +41,7 @@ app.get("/scrape", function (req, res) {
 
 // This will get the articles we scraped from the mongoDB
 app.get("/articles/:saved", function (req, res) {
-    // TODO: Finish the route so it grabs all of the articles
+
     var saved = req.params.saved;
 
     // console.log("saved " + saved)
@@ -148,7 +148,7 @@ app.delete("/articles/:id", function (req, res) {
     });
 });
 
-// This will delete a saved article from the db
+// This will delete a saved note from the db and article array
 app.delete("/notes/:data", function (req, res) {
 
   var obj = JSON.parse(req.params.data);
@@ -173,6 +173,7 @@ app.delete("/notes/:data", function (req, res) {
 
 
 //  *********** FUNCTIONS **************
+// process the article scraping
 function processArticles(html, data) {
 
     // Then, we load that into cheerio and save it to $ for a shorthand selector
