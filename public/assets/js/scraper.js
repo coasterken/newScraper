@@ -28,7 +28,7 @@ $(document).ready(function () {
         });
       } else {
         // console.log("no data found")
-        $("#scrapedData").html("No articles to display.  Scrape some!");
+        $("#scrapedData").html("<h3>No articles to display.  Scrape some!</h3>");
       }
     });
   };
